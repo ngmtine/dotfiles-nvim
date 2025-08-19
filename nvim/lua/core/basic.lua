@@ -69,21 +69,27 @@ vim.api.nvim_create_autocmd({ "FileType" }, {
 })
 
 -- 存在しないディレクトリで保存しようとしたときにmkdir
-vim.cmd([[
-    augroup vimrc-auto-mkdir
-    autocmd!
-    function! s:auto_mkdir(dir, force)
-    if !isdirectory(a:dir) && (a:force || input(printf('"%s" does not exist. Create? [y/N]', a:dir)) =~? '^y\%[es]$')
-    call mkdir(iconv(a:dir, &encoding, &termencoding), 'p')
-    endif
-    endfunction
-    autocmd BufWritePre * call s:auto_mkdir(expand('<afile>:p:h'), v:cmdbang)
-    augroup END
-]])
+vim.api.nvim_create_autocmd("BufWritePre", {
+    group = vim.api.nvim_create_augroup("AutoMkdir", { clear = true }),
+    pattern = "*",
+    callback = function(args)
+        local dir = vim.fn.fnamemodify(args.file, ":p:h")
+
+        if dir == "" or vim.fn.isdirectory(dir) == 1 then
+            return
+        end
+
+        local force = vim.v.cmdbang > 0
+        if force or vim.fn.confirm(string.format('Directory "%s" does not exist. Create it?', dir), "&Yes\n&No", 2) == 1 then
+            vim.fn.mkdir(dir, "p")
+            vim.cmd("checktime")
+        end
+    end,
+})
 
 -- undo 永続化
 vim.opt.undofile = true
-vim.opt.undodir = vim.fn.expand("~/.config/nvim/undo/")
+vim.opt.undodir = vim.fn.stdpath("data") .. "/undo"
 
 -- カーソル位置永続化
 vim.api.nvim_create_autocmd({ "BufReadPost" }, {

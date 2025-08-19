@@ -1,3 +1,6 @@
 .data
 .state
 .cache
+var/
+efm-langserver/
+fish/
