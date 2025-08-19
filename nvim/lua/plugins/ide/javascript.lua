@@ -104,6 +104,8 @@ local on_attach = function(client, bufnr)
     vim.notify(msg)
 end
 
+local efm_setup_done = false
+
 -- js, tsのlsp設定
 lspconfig.ts_ls.setup({
     on_attach = function(client, bufnr)
@@ -122,25 +124,26 @@ lspconfig.ts_ls.setup({
             group = vim.api.nvim_create_augroup("EfmFormatting", { clear = true }),
             buffer = bufnr,
             callback = function()
-                U.notify_formatting_info(bufnr)
                 vim.lsp.buf.format({
                     filter = function(c) return c.name == "efm" end, -- フォーマットはefmに一任
                     async = false                                    -- 非同期にするとなんかバグるので無効化
                 })
             end,
         })
-    end
-})
 
--- efmのlsp設定（js, ts以外のファイルで実行させないために、この場所で指定）
-lspconfig.efm.setup({
-    -- on_attach(client, bufnr),                -- 共通on_attach
-    settings = build_efm_settings(), -- プロジェクトがbiome, prettier, eslintのどれを採用しているかによって動的に設定
-    init_options = {
-        documentFormatting = true,
-        documentRangeFormatting = false,
-        documentHighlight = false,
-        hover = false,
-        completion = false,
-    },
+        if not efm_setup_done then
+            lspconfig.efm.setup({
+                -- on_attach(client, bufnr),                -- 共通on_attach
+                settings = build_efm_settings(), -- プロジェクトがbiome, prettier, eslintのどれを採用しているかによって動的に設定
+                init_options = {
+                    documentFormatting = true,
+                    documentRangeFormatting = false,
+                    documentHighlight = false,
+                    hover = false,
+                    completion = false,
+                },
+            })
+            efm_setup_done = true
+        end
+    end,
 })
