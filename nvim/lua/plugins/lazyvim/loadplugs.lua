@@ -53,8 +53,8 @@ local cli_only_plugins = {
 }
 
 -- 最終的に読み込むプラグインリストの作成
-local is_vscode = vim.g.vscode == 1
-if not is_vscode then
+local env = require("utils.env")
+if not env.is_vscode then
     for _, additional in ipairs(cli_only_plugins) do
         table.insert(plugins, additional)
     end

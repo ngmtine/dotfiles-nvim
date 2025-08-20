@@ -3,15 +3,18 @@ vim.g.start_time = vim.loop.hrtime()
 
 local U = require("utils")
 
--- LazyVim
+U.safe_require_all("core")
+U.safe_require_all("commands")
+
 require("plugins.lazyvim.bootstrap")
 require("plugins.lazyvim.loadplugs")
 
-U.safe_require_all("core")
-U.safe_require_all("commands")
 U.safe_require_all("plugins/general")
-U.safe_require_all("plugins/cli")
-U.safe_require_all("plugins/ide")
+
+if not U.is_vscode then
+    U.safe_require_all("plugins/cli")
+    U.safe_require_all("plugins/ide")
+end
 
 -- 起動時刻を表示するautocmd
 vim.api.nvim_create_autocmd("VimEnter", {
