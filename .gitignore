@@ -5,3 +5,4 @@ var/
 efm-langserver/
 fish/
 test/
+lazy-lock.json
