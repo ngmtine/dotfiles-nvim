@@ -39,6 +39,7 @@ local cli_only_plugins = {
     {
         "shellRaining/hlchunk.nvim",      -- インデントとかの可視化
         event = { "BufReadPre", "BufNewFile" },
+        dependencies = { "nvim-treesitter/nvim-treesitter" },
     },
     { "ibhagwan/fzf-lua" },        -- fuzzy finder
     { "akinsho/bufferline.nvim" }, -- バッファをタブエディタっぽく表示するやつ
