@@ -13,7 +13,8 @@ U.safe_require_all("plugins/general")
 
 if not U.is_vscode then
     U.safe_require_all("plugins/cli")
-    U.safe_require_all("plugins/ide")
+    require("plugins.ide.masonconfig")
+    -- U.safe_require_all("plugins/ide")
 end
 
 -- 起動時刻を表示するautocmd
