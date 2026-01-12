@@ -18,7 +18,6 @@
 --     -- debugger_cmd = {}
 -- })
 
-
 -- for _, language in ipairs({ "javascript", "typescript", "javascriptreact", "typescriptreact" }) do
 --     if not dap.configurations[language] then
 --         dap.configurations[language] = {}

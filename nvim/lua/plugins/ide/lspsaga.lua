@@ -19,7 +19,7 @@ require("lspsaga").setup({
         keys = {
             edit = "e",
             vsplit = "<leader>v", -- 右に開く
-            split = "<leader>h",  -- 下に開く
+            split = "<leader>h", -- 下に開く
             tabe = "<leader>t",
             quit = { "q", "<Esc>" },
         },
@@ -30,8 +30,8 @@ require("lspsaga").setup({
     -- :Lspsaga diagnostic_jump_prev
     diagnostic = {
         keys = {
-            quit = { "q", "<ESC>" }
-        }
+            quit = { "q", "<ESC>" },
+        },
     },
 
     -- 定義、参照、実装の表示
@@ -39,7 +39,7 @@ require("lspsaga").setup({
 
     -- コードアクションのヒント
     lightbulb = {
-        sign = false -- 左側にアイコンを描画する機能であるが、ガタつく
+        sign = false, -- 左側にアイコンを描画する機能であるが、ガタつく
     },
 })
 

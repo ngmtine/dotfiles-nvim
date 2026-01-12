@@ -29,11 +29,7 @@ vim.api.nvim_create_autocmd("VimEnter", {
         local elapsed_ms = (end_time - start_time) / 1000000
 
         -- 結果を通知
-        vim.notify(
-            string.format("🚀 Neovim loaded in %.2f ms", elapsed_ms),
-            vim.log.levels.INFO,
-            { title = "Startup Time" }
-        )
+        vim.notify(string.format("🚀 Neovim loaded in %.2f ms", elapsed_ms), vim.log.levels.INFO, { title = "Startup Time" })
 
         vim.g.start_time = nil
     end,

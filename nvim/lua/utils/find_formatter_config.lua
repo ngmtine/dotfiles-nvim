@@ -44,7 +44,7 @@ local function find_formatter_config(filenames, bufnr, findroot)
         path = start_dir,
         upward = true,
         limit = 1,
-        type = "file"
+        type = "file",
     })
 
     -- 見つかった場合
@@ -53,14 +53,12 @@ local function find_formatter_config(filenames, bufnr, findroot)
         local root_prefix = project_root_dir .. "/"
         if string.sub(found_file_path, 1, #root_prefix) == root_prefix then
             -- プロジェクト内に存在する場合、見つかったファイルパスを返却して終了
-            local msg = string.format("[find_formatter_config] Found '%s' within project '%s'", found_file_path,
-                project_root_dir)
+            local msg = string.format("[find_formatter_config] Found '%s' within project '%s'", found_file_path, project_root_dir)
             vim.notify(msg)
             return found_file_path
         else
             -- プロジェクトルート外で見つかった場合、nil返して終了
-            local msg = string.format("[find_formatter_config] Found '%s' but it is outside project root '%s'. Ignored.",
-                found_file_path, project_root_dir)
+            local msg = string.format("[find_formatter_config] Found '%s' but it is outside project root '%s'. Ignored.", found_file_path, project_root_dir)
             vim.notify(msg)
             return nil
         end

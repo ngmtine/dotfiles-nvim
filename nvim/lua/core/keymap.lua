@@ -40,7 +40,7 @@ local function move_buffer_to_right()
         vim.cmd("wincmd l")
     else
         -- 複数ウィンドウがある場合は、現在のウィンドウを右端に移動
-        vim.cmd('wincmd L')
+        vim.cmd("wincmd L")
     end
 end
 
@@ -53,7 +53,7 @@ local function move_buffer_to_left()
         vim.cmd("wincmd h")
     else
         -- 複数ウィンドウがある場合は、現在のウィンドウを左端に移動
-        vim.cmd('wincmd H')
+        vim.cmd("wincmd H")
     end
 end
 

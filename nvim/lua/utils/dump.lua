@@ -5,7 +5,7 @@
 -- @return string フォーマットされた文字列
 local function dump_recursive(value, indent, visited)
     local value_type = type(value)
-    local indent_str = string.rep("  ", indent)          -- 現在のインデント
+    local indent_str = string.rep("  ", indent) -- 現在のインデント
     local next_indent_str = string.rep("  ", indent + 1) -- 次のインデント
 
     if value_type == "string" then
@@ -19,9 +19,9 @@ local function dump_recursive(value, indent, visited)
         if visited[value] then
             return '"*RECURSION*"' -- 循環検出
         end
-        visited[value] = true      -- 訪問済みマーク
+        visited[value] = true -- 訪問済みマーク
 
-        local parts = {}           -- テーブルの各要素の文字列を格納
+        local parts = {} -- テーブルの各要素の文字列を格納
         local is_first = true
 
         -- テーブルの内容を処理
@@ -29,11 +29,11 @@ local function dump_recursive(value, indent, visited)
             local key_str
             -- キーのフォーマット
             if type(key) == "string" and key:match("^[a-zA-Z_][a-zA-Z0-9_]*$") then
-                key_str = key                                                     -- Luaの識別子として有効な文字列キー
+                key_str = key -- Luaの識別子として有効な文字列キー
             elseif type(key) == "string" then
                 key_str = '["' .. key:gsub("\\", "\\\\"):gsub('"', '\\"') .. '"]' -- その他の文字列キー
             else
-                key_str = '[' .. tostring(key) .. ']'                             -- 数値キーなど
+                key_str = "[" .. tostring(key) .. "]" -- 数値キーなど
             end
 
             -- 値を再帰的にフォーマット
@@ -54,8 +54,8 @@ local function dump_recursive(value, indent, visited)
         end
     elseif value_type == "function" then
         return tostring(value) -- 例: "function: 0x..."
-    else                       -- userdata, thread など
-        return '"' .. value_type .. ': ' .. tostring(value) .. '"'
+    else -- userdata, thread など
+        return '"' .. value_type .. ": " .. tostring(value) .. '"'
     end
 end
 

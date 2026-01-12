@@ -1,4 +1,4 @@
-local bufferline = require('bufferline')
+local bufferline = require("bufferline")
 
 local currentBufBg = "#2a3158"
 local currentBufStr = "#cdd1e6"
@@ -17,7 +17,7 @@ local modifiedIcon = "#e4aa80"
 
 -- 編集中のバッファのスタイル（アクティブかつフォーカスのバッファ）
 local editing_buffer_style = {
-    fg = currentBufBg,  -- 背景色
+    fg = currentBufBg, -- 背景色
     bg = currentBufStr, -- 文字色
     bold = false,
     italic = false,
@@ -25,7 +25,7 @@ local editing_buffer_style = {
 
 -- 編集中ではないバッファのスタイル（非フォーカスの全てのバッファ）
 local background_buffer_style = {
-    fg = otherBufBg,  -- 背景色
+    fg = otherBufBg, -- 背景色
     bg = otherBufStr, -- 文字色
     bold = false,
     italic = false,
@@ -37,7 +37,7 @@ local editing_buffer_modified_icon = {
 }
 
 local background_buffer_modified_icon = {
-    fg = otherBufBg,   -- 背景色
+    fg = otherBufBg, -- 背景色
     bg = modifiedIcon, -- オレンジの●
 }
 
@@ -55,12 +55,12 @@ bufferline.setup({
     -- スタイル詳細は :h bufferline-highlights
     highlights = {
         fill = {
-            fg = "none" -- bufferlineのタブ部以外の空白領域に背景色を付与しない（実際はweztermで黒）
+            fg = "none", -- bufferlineのタブ部以外の空白領域に背景色を付与しない（実際はweztermで黒）
         },
 
         -- 画面上に表示されていないバッファ（非フォーカスかつ非アクティブ）
         background = {
-            fg = otherBufBg,  -- 背景色
+            fg = otherBufBg, -- 背景色
             bg = otherBufStr, -- 文字色
         },
 
@@ -142,5 +142,5 @@ bufferline.setup({
 
         -- offset_separator = {},
         -- trunc_marker = {}
-    }
+    },
 })

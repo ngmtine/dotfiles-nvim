@@ -1,7 +1,7 @@
-local cmp                 = require("cmp")
+local cmp = require("cmp")
 
 -- 共通キーバインド
-local keybindings         = {
+local keybindings = {
     -- 補完ウィンドウ表示
     ["<c-space>"] = cmp.mapping.complete(),
 
@@ -53,7 +53,7 @@ local keybindings_cmdline = vim.tbl_deep_extend("force", keybindings, {
 })
 
 -- 補完ポップアップウィンドウ内の文字列フォーマット
-local formatting_conf     = {
+local formatting_conf = {
     -- fields = { "menu", "kind", "abbr" }, -- 補完ソース、種別、補完後文字列 の3列で表示
     fields = { "menu", "abbr" }, -- 補完ソース、補完後文字列 の3列で表示
     format = function(entry, vim_item)
@@ -80,7 +80,7 @@ cmp.setup({
     },
 
     -- 補完ウィンドウが表示された時に一番上の候補を自動選択
-    completion = { completeopt = "menu,menuone,noinsert", },
+    completion = { completeopt = "menu,menuone,noinsert" },
 
     -- mapping = cmp.mapping.preset.insert(keybindings),
     mapping = keybindings,
@@ -116,8 +116,8 @@ cmp.setup.cmdline(":", {
 cmp.setup.cmdline({ "/", "?" }, {
     mapping = cmp.mapping.preset.insert(keybindings_cmdline),
     sources = {
-        { name = "buffer" }
-    }
+        { name = "buffer" },
+    },
 })
 
 -- Set up lspconfig.

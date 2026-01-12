@@ -22,7 +22,7 @@ local function get_project_root(bufnr)
     local found_markers = vim.fs.find(root_markers, {
         path = start_dir,
         upward = true,
-        limit = 1
+        limit = 1,
     })
 
     if #found_markers > 0 then

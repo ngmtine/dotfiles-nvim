@@ -9,15 +9,15 @@ local function RemoveHtmlAttributes(args)
     else
         -- 引数がある場合、複数の属性名を処理
         for attribute in string.gmatch(args.args, "%S+") do
-            table.insert(patterns, '\\s\\+' .. attribute .. '\\s*=\\s*"[^"]*"')
+            table.insert(patterns, "\\s\\+" .. attribute .. '\\s*=\\s*"[^"]*"')
         end
     end
 
     -- 各パターンで置換を実行
     for _, pattern in ipairs(patterns) do
-        vim.cmd('%s/' .. pattern .. '//g')
+        vim.cmd("%s/" .. pattern .. "//g")
     end
 end
 
 -- ユーザーコマンドの作成
-vim.api.nvim_create_user_command('RmAttr', RemoveHtmlAttributes, { nargs = '*' })
+vim.api.nvim_create_user_command("RmAttr", RemoveHtmlAttributes, { nargs = "*" })

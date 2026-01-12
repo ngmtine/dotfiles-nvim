@@ -2,9 +2,9 @@ require("nvim-treesitter.configs").setup({
     -- 自動インストールするパーサーのリスト
     ensure_installed = { "vim", "vimdoc", "query", "lua", "javascript", "typescript", "tsx", "python", "markdown" },
 
-    auto_install = true,  -- 自動インストール有効化（tree-sitter-cliがなければfalseにすること）
+    auto_install = true, -- 自動インストール有効化（tree-sitter-cliがなければfalseにすること）
     sync_install = false, -- 非同期インストール有効化
-    ignore_install = {},  -- 自動インストール無視リスト空
+    ignore_install = {}, -- 自動インストール無視リスト空
 
     highlight = { enable = true },
 
@@ -39,9 +39,9 @@ require("nvim-treesitter.configs").setup({
                 ["as"] = { query = "@local.scope", query_group = "locals", desc = "Select language scope" },
             },
             selection_modes = {
-                ['@parameter.outer'] = 'v',
-                ['@function.outer'] = 'V',
-                ['@class.outer'] = '<c-v>',
+                ["@parameter.outer"] = "v",
+                ["@function.outer"] = "V",
+                ["@class.outer"] = "<c-v>",
             },
             include_surrounding_whitespace = true,
         },

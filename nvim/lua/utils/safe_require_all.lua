@@ -15,8 +15,7 @@ local function safe_require_all(dir)
 
     -- ディレクトリが読み込めない、または見つからない場合、空テーブルを返して終了
     if type(entries) ~= "table" then
-        local msg = string.format("[safe_require_all] Could not read directory or directory not found: '%s'",
-            base_dir_path)
+        local msg = string.format("[safe_require_all] Could not read directory or directory not found: '%s'", base_dir_path)
         return merged_table
     end
 
@@ -36,11 +35,7 @@ local function safe_require_all(dir)
                             -- 読み込んだものがテーブルの場合
                             for key, value in pairs(result) do
                                 if merged_table[key] ~= nil and merged_table[key] ~= value then
-                                    local msg = string.format(
-                                        "[safe_require_all] Warning: Key '%s' from table in '%s' overwriting.",
-                                        key,
-                                        full_module_name
-                                    )
+                                    local msg = string.format("[safe_require_all] Warning: Key '%s' from table in '%s' overwriting.", key, full_module_name)
                                     vim.notify(msg, vim.log.levels.WARN)
                                 end
                                 merged_table[key] = value
@@ -49,12 +44,7 @@ local function safe_require_all(dir)
                             -- テーブル以外でnilでない場合 (function, boolean, string, number)
                             local key = module_name_suffix
                             if merged_table[key] ~= nil then
-                                local msg = string.format(
-                                    "[safe_require_all] Warning: Key '%s' (from %s in '%s') overwriting existing value.",
-                                    key,
-                                    type(result),
-                                    full_module_name
-                                )
+                                local msg = string.format("[safe_require_all] Warning: Key '%s' (from %s in '%s') overwriting existing value.", key, type(result), full_module_name)
                                 vim.notify(msg, vim.log.levels.WARN)
                             end
                             merged_table[key] = result

@@ -2,7 +2,7 @@
 -- 例: :PipeBuffer :map
 local function PipeBuffer(cmd)
     local result = vim.fn.execute(cmd)
-    vim.cmd('tabe')
+    vim.cmd("tabe")
     vim.api.nvim_buf_set_lines(0, 0, -1, false, vim.split(result, "\n"))
     vim.bo.modifiable = true
     vim.bo.modified = true

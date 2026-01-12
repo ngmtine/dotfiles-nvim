@@ -28,8 +28,8 @@ vim.notify("[masonconfig] Setting up LSP servers with vim.lsp.config", vim.log.l
 -- lua_ls
 vim.lsp.config.lua_ls = {
     capabilities = capabilities,
-    filetypes = { 'lua' },
-    root_markers = { { '.luarc.json', '.luarc.jsonc' }, '.git' },
+    filetypes = { "lua" },
+    root_markers = { { ".luarc.json", ".luarc.jsonc" }, ".git" },
     settings = {
         Lua = {
             diagnostics = { globals = { "vim" } },
@@ -42,16 +42,16 @@ vim.notify("[masonconfig] lua_ls config complete", vim.log.levels.WARN)
 -- ts_ls
 vim.lsp.config.ts_ls = {
     capabilities = capabilities,
-    filetypes = { 'typescript', 'javascript', 'typescriptreact', 'javascriptreact' },
-    root_markers = { 'package.json', 'tsconfig.json', '.git' },
+    filetypes = { "typescript", "javascript", "typescriptreact", "javascriptreact" },
+    root_markers = { "package.json", "tsconfig.json", ".git" },
 }
 vim.notify("[masonconfig] ts_ls config complete", vim.log.levels.WARN)
 
 -- bashls
 vim.lsp.config.bashls = {
     capabilities = capabilities,
-    filetypes = { 'sh' },
-    root_markers = { '.git' },
+    filetypes = { "sh" },
+    root_markers = { ".git" },
 }
 vim.notify("[masonconfig] bashls config complete", vim.log.levels.WARN)
 
@@ -65,7 +65,7 @@ vim.lsp.config.efm = {
     -- root_dirをプロジェクトルートごとに設定（package.jsonのみを探す）
     root_dir = function(bufnr, on_dir)
         local fname = vim.api.nvim_buf_get_name(bufnr)
-        local root = vim.fs.root(fname, { 'package.json' })
+        local root = vim.fs.root(fname, { "package.json" })
         vim.notify(string.format("[EFM] root_dir for '%s' = '%s'", fname, root or "nil"), vim.log.levels.WARN)
         on_dir(root)
     end,
@@ -94,8 +94,8 @@ vim.notify("[masonconfig] EFM config complete", vim.log.levels.WARN)
 vim.lsp.enable(servers)
 
 -- LspAttach autocmdでon_attachロジック
-vim.api.nvim_create_autocmd('LspAttach', {
-    group = vim.api.nvim_create_augroup('LspAttachGroup', {}),
+vim.api.nvim_create_autocmd("LspAttach", {
+    group = vim.api.nvim_create_augroup("LspAttachGroup", {}),
     callback = function(args)
         local bufnr = args.buf
         local client = vim.lsp.get_client_by_id(args.data.client_id)
@@ -114,8 +114,7 @@ vim.api.nvim_create_autocmd('LspAttach', {
             local efm_config = require("plugins.ide.efm_config")
             local root_dir = client.config.root_dir
 
-            vim.notify(string.format("[EFM] on_attach: Sending settings for root_dir: %s", root_dir), vim.log.levels
-            .WARN)
+            vim.notify(string.format("[EFM] on_attach: Sending settings for root_dir: %s", root_dir), vim.log.levels.WARN)
 
             local settings = efm_config.build_settings(bufnr, root_dir)
             client.notify("workspace/didChangeConfiguration", { settings = settings })
@@ -129,19 +128,21 @@ vim.api.nvim_create_autocmd('LspAttach', {
                 group = vim.api.nvim_create_augroup("LspFormatting", { clear = true }),
                 buffer = bufnr,
                 callback = function()
-                    local filetype = vim.api.nvim_buf_get_option(bufnr, 'filetype')
-                    if filetype == 'lua' then
+                    local filetype = vim.api.nvim_buf_get_option(bufnr, "filetype")
+                    if filetype == "lua" then
                         -- luaファイルの場合、styluaを使ってフォーマット
                         local stylua_path = vim.fn.stdpath("data") .. "/mason/bin/stylua"
                         local file_path = vim.api.nvim_buf_get_name(bufnr)
                         vim.fn.system(stylua_path .. " " .. vim.fn.shellescape(file_path))
-                    elseif filetype == 'sh' then
+                    elseif filetype == "sh" then
                         -- beautysh を使うのでLSPフォーマットは不要
                         return
                     else
                         -- javascript, typescript など、efmでフォーマット
                         vim.lsp.buf.format({
-                            filter = function(c) return c.name == "efm" end,
+                            filter = function(c)
+                                return c.name == "efm"
+                            end,
                             bufnr = bufnr,
                             async = false,
                         })

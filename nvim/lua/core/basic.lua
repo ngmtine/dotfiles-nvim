@@ -16,12 +16,12 @@ vim.api.nvim_create_autocmd("BufEnter", {
 -- style --------------------------------------------------
 vim.opt.termguicolors = true -- truecolor有効化
 vim.opt.number = true
-vim.opt.showtabline = 2      -- タブ常に表示
+vim.opt.showtabline = 2 -- タブ常に表示
 vim.opt.cursorline = true
-vim.opt.splitright = true    -- ウィンドウ水平分割時に、新規ウィンドウは右に作成
-vim.opt.splitbelow = true    -- ウィンドウ垂直分割時に、新規ウィンドウは下に作成
-vim.opt.signcolumn = "yes"   -- 行数表示列のガタツキ阻止（lspの診断情報が更新された時等）
-vim.opt.updatetime = 100     -- lspの情報表示の更新頻度 デフォは4000ms
+vim.opt.splitright = true -- ウィンドウ水平分割時に、新規ウィンドウは右に作成
+vim.opt.splitbelow = true -- ウィンドウ垂直分割時に、新規ウィンドウは下に作成
+vim.opt.signcolumn = "yes" -- 行数表示列のガタツキ阻止（lspの診断情報が更新された時等）
+vim.opt.updatetime = 100 -- lspの情報表示の更新頻度 デフォは4000ms
 
 -- 特殊文字
 vim.opt.list = true

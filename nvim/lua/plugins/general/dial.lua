@@ -27,4 +27,3 @@ require("dial.config").augends:register_group({
         augend.constant.alias.bool,
     },
 })
-

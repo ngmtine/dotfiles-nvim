@@ -1,6 +1,6 @@
 -- 開いているファイルのフルパスをコピー
 vim.api.nvim_create_user_command("CopyPath", function()
-    local filepath = vim.fn.expand('%:p')
+    local filepath = vim.fn.expand("%:p")
 
     if filepath == "" then
         print("No file path to copy.")
