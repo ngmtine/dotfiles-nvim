@@ -1,9 +1,11 @@
 local find_formatter_config = require("utils.find_formatter_config")
 
 -- .vscode/settings.json を解析してフォーマッタ設定を返す
+-- @param bufnr (number, optional) 対象のバッファ番号
+-- @param root_dir (string, optional) プロジェクトルートディレクトリ
 -- @return string|nil フォーマッタ名 (例: "biome", "prettier") or nil
-local function get_vscode_formatter()
-    local vscode_settings_path = find_formatter_config({ ".vscode/settings.json" })
+local function get_vscode_formatter(bufnr, root_dir)
+    local vscode_settings_path = find_formatter_config({ ".vscode/settings.json" }, bufnr, root_dir)
     if not vscode_settings_path then
         return nil
     end

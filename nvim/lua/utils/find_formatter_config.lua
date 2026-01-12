@@ -3,29 +3,32 @@ local get_project_root = require("utils/get_project_root")
 -- 設定ファイルを現在のディレクトリから親ディレクトリに向かって検索
 -- @param filenames (string|table) 検索するファイル名のリストまたは単一ファイル名
 -- @param bufnr (number, optional) 対象のバッファ番号
--- @param findroot (string) 検索するディレクトリ
+-- @param findroot (string, optional) 検索するディレクトリ（プロジェクトルート）
 -- @return string|nil 見つかったファイルのフルパス、または見つからなければ nil
-function find_formatter_config(filenames, bufnr, findroot)
+local function find_formatter_config(filenames, bufnr, findroot)
     bufnr = bufnr or vim.api.nvim_get_current_buf()
     local buf_path = vim.api.nvim_buf_get_name(bufnr)
     local start_dir
+    local project_root_dir
 
     if findroot then
-        -- findrootが渡されているならばそれを開始点とする
+        -- findrootが渡されているならばそれを開始点とプロジェクトルートとする
         start_dir = findroot
+        project_root_dir = findroot
     elseif buf_path and buf_path ~= "" then
         -- 開いているバッファのパスを開始点とする
         start_dir = vim.fn.fnamemodify(buf_path, ":h")
+        project_root_dir = get_project_root(bufnr)
     else
         -- バッファが無ければcwdを開始点とする（nvimを引数なしで起動した場合）
         start_dir = vim.fn.getcwd()
+        project_root_dir = get_project_root(bufnr)
     end
 
     if not start_dir then
         return nil
     end
 
-    local project_root_dir = get_project_root(bufnr)
     if not project_root_dir then
         local msg = "[find_formatter_config] Project root not found. Skipping search."
         vim.notify(msg, vim.log.levels.INFO)

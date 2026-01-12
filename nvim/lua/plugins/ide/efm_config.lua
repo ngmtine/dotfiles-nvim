@@ -1,7 +1,11 @@
 local U = require("utils")
 
 -- efmのsettingsテーブルを動的に構築する関数
-local function build_efm_settings()
+-- @param bufnr (number, optional) 対象のバッファ番号
+-- @param root_dir (string, optional) プロジェクトルートディレクトリ
+local function build_efm_settings(bufnr, root_dir)
+    bufnr = bufnr or vim.api.nvim_get_current_buf()
+
     local settings = {
         version = 2,
         rootMarkers = { ".git", "package.json" },
@@ -12,9 +16,9 @@ local function build_efm_settings()
     local tools = {}
 
     -- 1. VSCode設定を最優先で確認
-    local vscode_formatter = U.get_vscode_formatter()
+    local vscode_formatter = U.get_vscode_formatter(bufnr, root_dir)
     if vscode_formatter == "biome" then
-        U.find_formatter_config({ "biome.json" }) -- biome.jsonの存在を明示的にチェック
+        U.find_formatter_config({ "biome.json" }, bufnr, root_dir) -- biome.jsonの存在を明示的にチェック
         tools.formatter = "biome"
         tools.linter = "biome"
     elseif vscode_formatter == "prettier" then
@@ -25,19 +29,19 @@ local function build_efm_settings()
 
     -- 2. VSCode設定がない場合、ツール設定ファイルを確認
     if vim.tbl_isempty(tools) then
-        local biome_config = U.find_formatter_config({ "biome.json" })
+        local biome_config = U.find_formatter_config({ "biome.json" }, bufnr, root_dir)
         local prettier_config = U.find_formatter_config({
             ".prettierrc",
             ".prettierrc.js",
             ".prettierrc.cjs",
             "prettier.config.js",
             "prettier.config.cjs",
-        })
+        }, bufnr, root_dir)
         local eslint_config = U.find_formatter_config({
             ".eslintrc.js",
             ".eslintrc.cjs",
             ".eslintrc.json",
-        })
+        }, bufnr, root_dir)
 
         if biome_config then
             -- BiomeがあればPrettierは無視
@@ -95,8 +99,9 @@ local function build_efm_settings()
     return settings
 end
 
+-- 関数として export（バッファごとに呼び出せるようにする）
 return {
-    settings = build_efm_settings(),
+    build_settings = build_efm_settings,
     init_options = {
         documentFormatting = true,
         documentRangeFormatting = false,
