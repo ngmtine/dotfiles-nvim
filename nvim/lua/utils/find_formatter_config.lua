@@ -1,4 +1,4 @@
-local get_project_root = require("utils/get_project_root")
+local get_project_root = require("utils.get_project_root")
 
 -- 設定ファイルを現在のディレクトリから親ディレクトリに向かって検索
 -- @param filenames (string|table) 検索するファイル名のリストまたは単一ファイル名

@@ -1,5 +1,5 @@
-local get_project_root = require("utils/get_project_root")
-local find_formatter_config = require("utils/find_formatter_config")
+local get_project_root = require("utils.get_project_root")
+local find_formatter_config = require("utils.find_formatter_config")
 
 local filenames = {
     biome = { "biome.json" },
