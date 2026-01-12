@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # このスクリプトが存在するディレクトリの絶対パスを取得
-REPO_ROOT=$(cd "$(dirname "$0")" && pwd)
+REPO_ROOT=$(cd "$(git rev-parse --show-toplevel)" && pwd)
 SCRIPT_DIR="$REPO_ROOT/var"
 
 # 諸々をこのスクリプトが存在するディレクトリ以下に指定

@@ -5,7 +5,7 @@
 set -eu
 
 # このスクリプトが存在するディレクトリの絶対パスを取得
-REPO_ROOT=$(cd "$(dirname "$0")" && pwd)
+REPO_ROOT=$(cd "$(git rev-parse --show-toplevel)" && pwd)
 
 # シンボリックリンクのソースとターゲットを定義
 SOURCE_DIR="$REPO_ROOT/nvim"
