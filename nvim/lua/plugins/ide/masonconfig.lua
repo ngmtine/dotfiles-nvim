@@ -2,9 +2,6 @@ local keymap_lsp = require("core.keymap")
 
 -- masonのセットアップ
 require("mason").setup({
-    ensure_installed = {
-        "beautysh", -- shell script formatter
-    },
     ui = { border = "rounded" },
 })
 
@@ -14,6 +11,7 @@ local servers = {
     "ts_ls",
     "bashls",
     "efm",
+    "stylua",
 }
 
 -- capabilities を設定
@@ -131,24 +129,23 @@ vim.api.nvim_create_autocmd('LspAttach', {
                 group = vim.api.nvim_create_augroup("LspFormatting", { clear = true }),
                 buffer = bufnr,
                 callback = function()
-                    local format_client_name
-
                     local filetype = vim.api.nvim_buf_get_option(bufnr, 'filetype')
                     if filetype == 'lua' then
-                        format_client_name = "lua_ls"
+                        -- luaファイルの場合、styluaを使ってフォーマット
+                        local stylua_path = vim.fn.stdpath("data") .. "/mason/bin/stylua"
+                        local file_path = vim.api.nvim_buf_get_name(bufnr)
+                        vim.fn.system(stylua_path .. " " .. vim.fn.shellescape(file_path))
                     elseif filetype == 'sh' then
                         -- beautysh を使うのでLSPフォーマットは不要
                         return
                     else
-                        -- javascript, typescript など
-                        format_client_name = "efm"
+                        -- javascript, typescript など、efmでフォーマット
+                        vim.lsp.buf.format({
+                            filter = function(c) return c.name == "efm" end,
+                            bufnr = bufnr,
+                            async = false,
+                        })
                     end
-
-                    vim.lsp.buf.format({
-                        filter = function(c) return c.name == format_client_name end,
-                        bufnr = bufnr,
-                        async = false,
-                    })
                 end,
             })
         end
