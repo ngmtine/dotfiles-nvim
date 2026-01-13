@@ -25,7 +25,7 @@ vim.opt.updatetime = 100 -- lspの情報表示の更新頻度 デフォは4000ms
 
 -- 特殊文字
 vim.opt.list = true
-vim.opt.listchars = { tab = "▸-", trail = "_", eol = "↲" }
+vim.opt.listchars = { tab = "→ ", lead = "·", trail = "·", eol = "↲" }
 
 -- edit --------------------------------------------------
 vim.opt.mouse = "a"
