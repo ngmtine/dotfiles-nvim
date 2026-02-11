@@ -14,6 +14,22 @@ local function find_upward(names, startpath)
   return found[1]
 end
 
+local function find_local_bin(startpath, bin_name)
+  local path = find_upward({ "node_modules/.bin/" .. bin_name }, startpath)
+  if path and vim.fn.executable(path) == 1 then
+    return path
+  end
+  return ""
+end
+
+local function find_executable(startpath, bin_name)
+  local local_bin = find_local_bin(startpath, bin_name)
+  if local_bin ~= "" then
+    return local_bin
+  end
+  return vim.fn.exepath(bin_name)
+end
+
 local function run_cmd(cmd)
   local result = vim.fn.system(cmd)
   if vim.v.shell_error ~= 0 then
@@ -49,7 +65,7 @@ local function format_js(filepath)
   local prettier_cfg = find_upward({ ".prettierrc", ".prettierrc.json", ".prettierrc.js", ".prettierrc.cjs", "prettier.config.js", "prettier.config.cjs" }, base)
   local eslint_cfg = find_upward({ ".eslintrc", ".eslintrc.json", ".eslintrc.js", ".eslintrc.cjs", "eslint.config.js", "eslint.config.cjs", "eslint.config.mjs" }, base)
 
-  local biome = vim.fn.exepath("biome")
+  local biome = find_executable(base, "biome")
   if biome == "" then
     local mason_biome = vim.fn.stdpath("data") .. "/mason/bin/biome"
     if vim.fn.executable(mason_biome) == 1 then
@@ -68,7 +84,7 @@ local function format_js(filepath)
   end
 
   if prettier_cfg then
-    local prettier = vim.fn.exepath("prettier")
+    local prettier = find_executable(base, "prettier")
     if prettier ~= "" then
       run_cmd({ prettier, "--write", filepath })
       vim.cmd("checktime")
@@ -77,7 +93,7 @@ local function format_js(filepath)
   end
 
   if eslint_cfg then
-    local eslint = vim.fn.exepath("eslint")
+    local eslint = find_executable(base, "eslint")
     if eslint ~= "" then
       run_cmd({ eslint, "--fix", filepath })
       vim.cmd("checktime")

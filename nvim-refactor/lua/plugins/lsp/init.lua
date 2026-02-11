@@ -1,4 +1,5 @@
 local M = {}
+local BIOME_VERSION = "2.3.14"
 
 function M.setup_mason()
   local ok, mason = pcall(require, "mason")
@@ -24,7 +25,7 @@ function M.setup_tools()
       "pyright",
       "bash-language-server",
       "ruff",
-      "biome@2.3.14",
+      "biome@" .. BIOME_VERSION,
       "debugpy",
       "js-debug-adapter",
       "local-lua-debugger-vscode",

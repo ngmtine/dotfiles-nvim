@@ -73,7 +73,7 @@ function M.setup()
       name = "Launch file",
       program = "${file}",
       cwd = "${workspaceFolder}",
-      pathBashdb = "bashdb",
+      pathBashdb = mason_path("packages", "bash-debug-adapter", "extension", "bashdb_dir", "bashdb"),
       pathBashdbLib = mason_path("packages", "bash-debug-adapter", "extension", "bashdb_dir"),
       pathBash = "bash",
       pathCat = "cat",
