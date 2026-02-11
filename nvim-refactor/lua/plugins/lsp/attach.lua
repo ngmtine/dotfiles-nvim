@@ -1,5 +1,27 @@
 local M = {}
 
+local function setup_format_on_save(bufnr)
+  if vim.b[bufnr].refactor_format_on_save then
+    return
+  end
+  vim.b[bufnr].refactor_format_on_save = true
+
+  vim.api.nvim_create_autocmd("BufWritePre", {
+    group = vim.api.nvim_create_augroup("RefactorFormatOnSave" .. bufnr, { clear = true }),
+    buffer = bufnr,
+    callback = function()
+      if vim.bo[bufnr].buftype ~= "" then
+        return
+      end
+      require("plugins.lsp.format").format(bufnr, {
+        write_before = false,
+        sync_buffer = true,
+        use_stdin = true,
+      })
+    end,
+  })
+end
+
 function M.on_attach(client, bufnr)
   local opts = { noremap = true, silent = true, buffer = bufnr }
   vim.keymap.set("n", "gD", vim.lsp.buf.declaration, opts)
@@ -14,12 +36,19 @@ function M.on_attach(client, bufnr)
   vim.keymap.set("n", "<leader>rn", vim.lsp.buf.rename, opts)
   vim.keymap.set("n", "<leader>ca", vim.lsp.buf.code_action, opts)
   vim.keymap.set("n", "gr", vim.lsp.buf.references, opts)
-  vim.keymap.set("n", "<leader>f", function() require("plugins.lsp.format").format(bufnr) end, opts)
+  vim.keymap.set("n", "<leader>f", function()
+    require("plugins.lsp.format").format(bufnr, {
+      write_before = true,
+      sync_buffer = true,
+    })
+  end, opts)
 
   if client.name == "ts_ls" then
     client.server_capabilities.documentFormattingProvider = false
     client.server_capabilities.documentRangeFormattingProvider = false
   end
+
+  setup_format_on_save(bufnr)
 end
 
 function M.setup_autocmd()
