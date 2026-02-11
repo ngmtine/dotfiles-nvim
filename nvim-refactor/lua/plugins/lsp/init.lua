@@ -25,7 +25,7 @@ function M.setup_tools()
       "pyright",
       "bash-language-server",
       "ruff",
-      "biome@" .. BIOME_VERSION,
+      { "biome", version = BIOME_VERSION },
       "debugpy",
       "js-debug-adapter",
       "local-lua-debugger-vscode",

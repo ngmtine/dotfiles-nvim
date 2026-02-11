@@ -38,8 +38,9 @@ function M.on_attach(client, bufnr)
   vim.keymap.set("n", "gr", vim.lsp.buf.references, opts)
   vim.keymap.set("n", "<leader>f", function()
     require("plugins.lsp.format").format(bufnr, {
-      write_before = true,
+      write_before = false,
       sync_buffer = true,
+      use_stdin = true,
     })
   end, opts)
 
