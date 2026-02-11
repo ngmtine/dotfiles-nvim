@@ -14,6 +14,24 @@ local function resolve_bin(bin_name)
   return nil
 end
 
+local function with_root_fallback(markers)
+  return function(bufnr, on_dir)
+    local name = vim.api.nvim_buf_get_name(bufnr)
+    if name == "" then
+      on_dir(vim.fn.getcwd())
+      return
+    end
+
+    local root = vim.fs.root(name, markers)
+    if root then
+      on_dir(root)
+      return
+    end
+
+    on_dir(vim.fs.dirname(name))
+  end
+end
+
 function M.setup()
   local capabilities = vim.lsp.protocol.make_client_capabilities()
   local ok_cmp, cmp_nvim_lsp = pcall(require, "cmp_nvim_lsp")
@@ -32,6 +50,7 @@ function M.setup()
     capabilities = capabilities,
     filetypes = { "lua" },
     root_markers = { { ".luarc.json", ".luarc.jsonc" }, ".git" },
+    root_dir = with_root_fallback({ ".luarc.json", ".luarc.jsonc", ".git" }),
     settings = {
       Lua = {
         diagnostics = { globals = { "vim" } },
@@ -44,6 +63,7 @@ function M.setup()
     capabilities = capabilities,
     filetypes = { "typescript", "javascript", "typescriptreact", "javascriptreact" },
     root_markers = { "package.json", "tsconfig.json", ".git" },
+    root_dir = with_root_fallback({ "package.json", "tsconfig.json", ".git" }),
   }
 
   vim.lsp.config.pyright = {
@@ -51,6 +71,7 @@ function M.setup()
     capabilities = capabilities,
     filetypes = { "python" },
     root_markers = { "pyproject.toml", "setup.py", ".git" },
+    root_dir = with_root_fallback({ "pyproject.toml", "setup.py", ".git" }),
   }
 
   vim.lsp.config.bashls = {
@@ -58,6 +79,7 @@ function M.setup()
     capabilities = capabilities,
     filetypes = { "sh", "bash", "zsh" },
     root_markers = { ".git" },
+    root_dir = with_root_fallback({ ".git" }),
   }
 
   vim.lsp.config.biome = {
@@ -65,6 +87,7 @@ function M.setup()
     capabilities = capabilities,
     filetypes = { "javascript", "javascriptreact", "typescript", "typescriptreact", "json", "jsonc" },
     root_markers = { "biome.json", "biome.jsonc", "package.json", ".git" },
+    root_dir = with_root_fallback({ "biome.json", "biome.jsonc", "package.json", ".git" }),
   }
 
   local enabled = {}
