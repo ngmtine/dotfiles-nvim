@@ -21,3 +21,18 @@ vim.keymap.set("n", "<Leader>rep", '"_dw"+P')
 vim.keymap.set("v", "<Leader>rep", '"_d"+P')
 vim.keymap.set("n", "<Leader>a", "ggVG")
 vim.keymap.set("n", "<c-w>n", ":vnew<cr>", { desc = "open buffer in right split" })
+
+vim.keymap.set("n", "<Leader>x", function()
+  local buf = vim.api.nvim_get_current_buf()
+  local bufs = vim.tbl_filter(function(b)
+    return vim.api.nvim_buf_is_loaded(b) and vim.bo[b].buflisted
+  end, vim.api.nvim_list_bufs())
+
+  if #bufs > 1 then
+    vim.cmd("bp")
+    vim.api.nvim_buf_delete(buf, {})
+  else
+    vim.cmd("enew")
+    vim.api.nvim_buf_delete(buf, {})
+  end
+end, { desc = "Close buffer" })
