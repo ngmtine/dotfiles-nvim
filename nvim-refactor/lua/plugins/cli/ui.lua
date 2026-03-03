@@ -26,6 +26,9 @@ function M.setup_bufferline()
       diagnostics = "nvim_lsp",
       separator_style = "slant",
     },
+    highlights = {
+      fill = { fg = "NONE" },
+    },
   })
 end
 
