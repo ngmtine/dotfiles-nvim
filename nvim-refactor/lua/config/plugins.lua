@@ -21,7 +21,7 @@ function M.setup(env)
       { "nvim-lualine/lualine.nvim", config = function() require("plugins.cli.ui").setup_lualine() end },
       { "akinsho/bufferline.nvim", version = "*", dependencies = { "nvim-tree/nvim-web-devicons" }, config = function() require("plugins.cli.ui").setup_bufferline() end },
       { "ibhagwan/fzf-lua", config = function() require("plugins.cli.fzf").setup() end },
-      { "christoomey/vim-tmux-navigator" },
+      { "christoomey/vim-tmux-navigator", config = function() require("plugins.cli.tmux_navigator").setup() end },
       { "lambdalisue/suda.vim" },
       { "mfussenegger/nvim-dap", config = function() require("plugins.dap.init").setup() end },
       { "rcarriga/nvim-dap-ui", dependencies = { "nvim-neotest/nvim-nio" } },
