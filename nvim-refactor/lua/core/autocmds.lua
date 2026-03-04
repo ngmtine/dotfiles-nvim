@@ -40,3 +40,9 @@ vim.api.nvim_create_autocmd("TextYankPost", {
     vim.highlight.on_yank({ timeout = 300 })
   end,
 })
+
+-- :s<Space> で :%s///g に展開
+-- https://zenn.dev/vim_jp/articles/2023-06-30-vim-substitute-tips
+vim.cmd([[
+  cnoreabbrev <expr> s getcmdtype() .. getcmdline() ==# ':s' ? [getchar(), ''][1] .. "%s///g<Left><Left>" : 's'
+]])

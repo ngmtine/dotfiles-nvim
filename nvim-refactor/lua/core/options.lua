@@ -13,7 +13,7 @@ vim.opt.signcolumn = "yes"
 vim.opt.updatetime = 100
 
 vim.opt.list = true
-vim.opt.listchars = { tab = "-> ", lead = ".", trail = ".", eol = "$" }
+vim.opt.listchars = { tab = "→ ", lead = "·", trail = "·", eol = "↲" }
 
 vim.opt.mouse = "a"
 vim.opt.encoding = "utf-8"
