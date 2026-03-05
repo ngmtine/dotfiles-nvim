@@ -10,11 +10,17 @@ function M.setup(env)
 
   if not env.is_vscode then
     vim.list_extend(plugins, {
+      { "neovim/nvim-lspconfig" },
       { "williamboman/mason.nvim", config = function() require("plugins.lsp.init").setup_mason() end },
       {
         "WhoIsSethDaniel/mason-tool-installer.nvim",
         dependencies = { "williamboman/mason.nvim" },
         config = function() require("plugins.lsp.init").setup_tools() end,
+      },
+      {
+        "mason-org/mason-lspconfig.nvim",
+        dependencies = { "williamboman/mason.nvim", "neovim/nvim-lspconfig" },
+        config = function() require("plugins.lsp.init").setup_mason_lspconfig() end,
       },
       { "nvim-treesitter/nvim-treesitter", build = ":TSUpdate", config = function() require("plugins.cli.treesitter").setup() end },
       { "nvim-treesitter/nvim-treesitter-textobjects", dependencies = { "nvim-treesitter/nvim-treesitter" } },

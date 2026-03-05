@@ -38,6 +38,18 @@ function M.setup_tools()
   })
 end
 
+function M.setup_mason_lspconfig()
+  local ok, mason_lspconfig = pcall(require, "mason-lspconfig")
+  if not ok then
+    return
+  end
+
+  -- mason-lspconfigがインストール済みサーバーを自動的にvim.lsp.enable()する
+  mason_lspconfig.setup({
+    automatic_enable = true,
+  })
+end
+
 function M.setup_lsp()
   require("plugins.lsp.servers").setup()
   require("plugins.lsp.attach").setup_autocmd()
